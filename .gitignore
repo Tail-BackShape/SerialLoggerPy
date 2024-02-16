@@ -1,1 +1,5 @@
 *.txt
+
+# Keep empty logs/ directory.
+/log/*
+!/log/.gitkeep
