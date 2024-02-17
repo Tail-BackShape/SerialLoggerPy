@@ -1,4 +1,5 @@
 import serial
+from datetime import datetime
 
 def main():
 
@@ -10,8 +11,10 @@ def main():
         ser = serial.Serial(COMPort, 9600)
 
         while True:
+            now = datetime.now().strftime("%Y-%m-%d, %H:%M:%S, ")
             data = (ser.readline()).decode('utf-8')
-            print(data.strip())
+            print(now, data.strip())
+            f.write(now)
             f.write(data.strip() + "\n")
 
     # Close serial port on keyboard interrupt
