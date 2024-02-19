@@ -22,7 +22,7 @@ def main():
 
         ser = serial.Serial(COMPort, baudRate)
 
-        while True:
+        while ser.isOpen():
             now = datetime.now().strftime("%Y-%m-%d, %H:%M:%S,")
             data = (ser.readline()).decode('utf-8')
             print(now, data.strip())
@@ -31,6 +31,10 @@ def main():
 
     # Close serial port on keyboard interrupt
     except KeyboardInterrupt:
+        ser.close()
+        f.close()
+
+    finally:
         ser.close()
         f.close()
 
