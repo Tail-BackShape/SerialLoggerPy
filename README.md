@@ -32,6 +32,6 @@ pip install pyserial
 - Update schedule (date and time of update)
 - Add timestamp(2024/2/17-JST)
 - Display the list of available COM ports first(2024/2/18-JST)
-- Enable to specify baud rate(2024/2/19)
+- Enable to specify baud rate(2024/2/19-JST)
 - Implement Serial.write-like functionality
 - Time stamp to milliseconds
