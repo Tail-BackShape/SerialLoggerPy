@@ -5,18 +5,22 @@ from datetime import datetime
 
 def main():
 
+    # Create a new file to log data
     filename = input("Enter filename: ")
     f = open("./log/" + filename + ".txt","w+")
 
+    # List all available COM ports
     ports = list(serial.tools.list_ports.comports())
     for p in ports:
         print(p)
-
     COMPort = input("Enter COM Port: ")
+
+    # Baud rate specification
+    baudRate = int(input("Enter Baud Rate(bps): "))
 
     try:
 
-        ser = serial.Serial(COMPort, 9600)
+        ser = serial.Serial(COMPort, baudRate)
 
         while True:
             now = datetime.now().strftime("%Y-%m-%d, %H:%M:%S,")
