@@ -27,11 +27,13 @@ pip install pyserial
 - 使えるCOMポートの一覧を最初に表示する(2024/2/18)
 - ボーレートを指定できるようにする(2024/2/19)
 - Serial.write的な機能を実装する
-- タイムスタンプをミリ秒までとれるようにする<br><br>
+- タイムスタンプをミリ秒までとれるようにする(2024/2/28)
+
+<br><br>
 
 - Update schedule (date and time of update)
 - Add timestamp(2024/2/17-JST)
 - Display the list of available COM ports first(2024/2/18-JST)
 - Enable to specify baud rate(2024/2/19-JST)
 - Implement Serial.write-like functionality
-- Time stamp to milliseconds
+- Time stamp to milliseconds(2024/2/28-JST)

@@ -23,7 +23,7 @@ def main():
         ser = serial.Serial(COMPort, baudRate)
 
         while ser.isOpen():
-            now = datetime.now().strftime("%Y-%m-%d, %H:%M:%S,")
+            now = datetime.now().strftime("%Y-%m-%d, %H:%M:%S.%f,")
             data = (ser.readline()).decode('utf-8')
             print(now, data.strip())
             f.write(now)
