@@ -36,7 +36,11 @@ def main():
             write_button.pack()
 
             def serial_writer(writedata):
-                ser.write((writedata + "\r\n").encode('utf-8'))
+                #整数の時はそのまま送信、文字列（小数）の時はutf-8でエンコードして送信
+                if (type(writedata) == int):
+                    ser.write(writedata + "\r\n")
+                else:
+                    ser.write((writedata + "\r\n").encode('utf-8'))
 
             def write_entry(entry_field):
                 writedata = entry_field.get()
