@@ -1,13 +1,25 @@
 import tkinter as tk
 import serial
 import serial.tools.list_ports
-
+import threading
 from datetime import datetime
 
+def serial_writer(ser, writedata):
+    ser.write((str(writedata) + "\r\n").encode('utf-8'))
 
+def write_entry(entry_field, ser):
+    writedata = entry_field.get()
+    serial_writer(ser, writedata)  # 文字列として直接シリアルに送信
+    entry_field.delete(0, tk.END)
+
+def read_serial(ser, f):
+    while ser.isOpen():
+        now = datetime.now().strftime("%Y-%m-%d, %H:%M:%S.%f,")
+        data = (ser.readline()).decode('utf-8')
+        print(now, data.strip())
+        f.write(now + data.strip() + "\n")
 
 def main():
-
     # Create a new file to log data
     filename = input("Enter filename: ")
     f = open("./log/" + filename + ".txt","w+")
@@ -22,41 +34,21 @@ def main():
     baudRate = int(input("Enter Baud Rate(bps): "))
 
     try:
-
         ser = serial.Serial(COMPort, baudRate)
+        thread = threading.Thread(target=read_serial, args=(ser, f))
+        thread.start()
 
-        while ser.isOpen():
-            window = tk.Tk()
-            window.title("Serial writer")
+        window = tk.Tk()
+        window.title("Serial writer")
 
-            entry = tk.Entry(window)
-            entry.pack()
+        entry = tk.Entry(window)
+        entry.pack()
 
-            write_button = tk.Button(window, text="Write", command=lambda: write_entry(entry))
-            write_button.pack()
+        write_button = tk.Button(window, text="Write", command=lambda: write_entry(entry, ser))
+        write_button.pack()
 
-            def serial_writer(writedata):
-                #整数の時はそのまま送信、文字列（小数）の時はutf-8でエンコードして送信
-                if (type(writedata) == int):
-                    ser.write(writedata + "\r\n")
-                else:
-                    ser.write((writedata + "\r\n").encode('utf-8'))
+        window.mainloop()
 
-            def write_entry(entry_field):
-                writedata = entry_field.get()
-                if writedata.isdigit():
-                    serial_writer(int(writedata))
-
-
-            now = datetime.now().strftime("%Y-%m-%d, %H:%M:%S.%f,")
-            data = (ser.readline()).decode('utf-8')
-            print(now, data.strip())
-            f.write(now)
-            f.write(data.strip() + "\n")
-
-            window.mainloop()
-
-    # Close serial port on keyboard interrupt
     except KeyboardInterrupt:
         ser.close()
         f.close()
